@@ -18,7 +18,14 @@ docker build -t op-docker:latest .
 ```
 ### From release
 
-``` docker pull ...TODO```
+First, you need to [authenticating with a Personal Access Token (PAT)](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-with-a-personal-access-token-classic).
+
+After to be logged in, pull the container image.
+
+```
+docker pull ghcr.io/quadproduction/openpype-module-docker:main
+```
+
 
 ## Run
 
