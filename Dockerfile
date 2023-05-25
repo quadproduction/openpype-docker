@@ -1,6 +1,9 @@
 FROM centos:7 AS builder
 ARG OPENPYPE_PYTHON_VERSION=3.9.16
 
+LABEL org.opencontainers.image.name="openpype-module-docker"
+LABEL org.opencontainers.image.documentation="https://github.com/quadproduction/openpype-module-docker"
+
 ENV OPENPYPE_MONGO="mongodb://localhost:27017"
 
 # update base
