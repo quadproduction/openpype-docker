@@ -13,7 +13,8 @@ Docker with Compose plugin. To install the latest version of Docker, you can use
 
 ```
 git clone https://github.com/quadproduction/openpype-module-docker.git
-docker build -t openpype-module-docker:main .
+cd openpype-module-docker
+docker build -t openpype-module-docker:latest .
 ```
 ### From release
 
@@ -22,8 +23,8 @@ First, you need to [authenticating with a Personal Access Token (PAT)](https://d
 After to be logged in, pull the container image.
 
 ```
-docker pull ghcr.io/quadproduction/openpype-module-docker:main
-docker tags ghcr.io/quadproduction/openpype-module-docker:main openpype-module-docker:main
+docker pull ghcr.io/quadproduction/openpype-module-docker:latest
+docker tags ghcr.io/quadproduction/openpype-module-docker:latest openpype-module-docker:latest
 ```
 
 
@@ -31,11 +32,11 @@ docker tags ghcr.io/quadproduction/openpype-module-docker:main openpype-module-d
 
 Replace the desired arguments and environment variable in the following command:
 
-```docker run -e OPENPYPE_MONGO=mongodb://localhost:27017 openpype-module-docker:main args```
+```docker run -e OPENPYPE_MONGO=mongodb://localhost:27017 openpype-module-docker:latest args```
 
 For example, to synchronize with Kitsu:
 
-```docker run -e OPENPYPE_MONGO=mongodb://localhost:27017 openpype-module-docker:main kitsu sync-service -l me@domain.ext -p my_password```
+```docker run -e OPENPYPE_MONGO=mongodb://localhost:27017 openpype-module-docker:latest kitsu sync-service -l me@domain.ext -p my_password```
 
 ## For developers
 
