@@ -1,19 +1,35 @@
-FROM debian:bullseye AS builder
+FROM centos:7 AS builder
 ARG OPENPYPE_PYTHON_VERSION=3.9.16
-ARG DEBIAN_FRONTEND=noninteractive
-
 LABEL org.opencontainers.image.name="openpype-module-docker"
 LABEL org.opencontainers.image.documentation="https://github.com/quadproduction/openpype-module-docker"
 
 ENV OPENPYPE_MONGO="mongodb://localhost:27017"
 
-
 # update base
-RUN apt-get update -y \
-    && apt-get install -y --no-install-recommends \
-    ca-certificates bash git cmake make curl wget build-essential libssl-dev \
-    zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev llvm libncursesw5-dev \
-    xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev patchelf
+RUN yum -y install deltarpm \
+    && yum -y update \
+    && yum clean all
+
+# add tools we need
+RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
+    && yum -y install centos-release-scl git make devtoolset-7 cmake curl gcc \
+        lib-devel bzip2 bzip2-devel readline-devel sqlite sqlite-devel \
+        tk-devel libffi-devel patchelf automake \
+        autoconf patch ncurses ncurses-devel qt5-qtbase-devel xcb-util-wm \
+        xcb-util-renderutil
+
+#### Force use of newer GCC
+RUN yum -y install devtoolset-9
+RUN echo "source /opt/rh/devtoolset-9/enable" >> /etc/bashrc
+SHELL ["/bin/bash", "--login", "-c"]
+
+# Install OpenSSL
+RUN curl -LO https://github.com/openssl/openssl/archive/refs/tags/OpenSSL_1_1_1s.tar.gz && \
+    tar xf OpenSSL_1_1_1s.tar.gz && \
+    cd openssl-OpenSSL_1_1_1s && \
+    ./config && \
+    make -j $(nproc) && \
+    make install
 
 # install pyenv
 RUN curl https://pyenv.run | bash && \
