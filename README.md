@@ -27,7 +27,7 @@ docker tags ghcr.io/quadproduction/openpype-module-docker:main openpype-module-d
 ```
 
 
-## Run
+## Run Module with Docker
 
 Replace the desired arguments and environment variable in the following command:
 
@@ -36,3 +36,8 @@ Replace the desired arguments and environment variable in the following command:
 For example, to synchronize with Kitsu:
 
 ```docker run -e OPENPYPE_MONGO=mongodb://localhost:27017 openpype-module-docker:main kitsu sync-service -l me@domain.ext -p my_password```
+
+## For developers
+
+Create a ticket and a merge request in case of any issues with this code.
+To create a new build of the image, you need to tag the main branch once the MR is accepted.
