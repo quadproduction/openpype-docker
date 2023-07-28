@@ -1,0 +1,29 @@
+name: Tag
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        type: choice
+        options: 
+          - patch
+          - minor
+          - major
+        description: Choose your version to bump
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: ⬆️🆙🏷️ Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tag_prefix: ""
+          default_bump: ${{ github.event.inputs.bump || 'patch' }} 
