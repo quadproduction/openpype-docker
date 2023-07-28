@@ -1,5 +1,6 @@
 FROM debian:bullseye AS builder
 ARG OPENPYPE_PYTHON_VERSION=3.9.16
+ARG OPENPYPE_USE_VERSION=3.15.12-quad.4.0
 ARG DEBIAN_FRONTEND=noninteractive
 
 LABEL org.opencontainers.image.name="openpype-module-docker"
@@ -28,7 +29,9 @@ RUN pyenv install ${OPENPYPE_PYTHON_VERSION}
 
 # clone openpype
 RUN cd /opt/ && \
-    git clone --recurse-submodules https://github.com/ynput/OpenPype.git
+    git clone --recurse-submodules https://github.com/quadproduction/OpenPype.git && \
+    git fetch && \
+    git checkout ${OPENPYPE_INSTALL_VERSION}
 
 WORKDIR /opt/OpenPype
 RUN pyenv local ${OPENPYPE_PYTHON_VERSION}
