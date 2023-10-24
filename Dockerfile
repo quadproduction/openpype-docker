@@ -30,7 +30,7 @@ RUN pyenv install ${OPENPYPE_PYTHON_VERSION}
 RUN cd /opt/ && \
     git clone --recurse-submodules https://github.com/quadproduction/OpenPype.git && \
     git fetch
-RUN git checkout 3.15.12-quad.4.0
+RUN git checkout ${OPENPYPE_QUAD_SYNCHRO_VERSION}
 
 WORKDIR /opt/OpenPype
 RUN pyenv local ${OPENPYPE_PYTHON_VERSION}
