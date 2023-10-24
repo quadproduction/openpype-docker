@@ -29,6 +29,7 @@ RUN pyenv install ${OPENPYPE_PYTHON_VERSION}
 # clone openpype
 RUN cd /opt/ && \
     git clone --recurse-submodules https://github.com/quadproduction/OpenPype.git && \
+    cd OpenPype && \
     git fetch
 RUN git checkout ${OPENPYPE_QUAD_SYNCHRO_VERSION}
 
