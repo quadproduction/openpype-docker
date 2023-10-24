@@ -30,7 +30,7 @@ RUN pyenv install ${OPENPYPE_PYTHON_VERSION}
 RUN cd /opt/ && \
     git clone --recurse-submodules https://github.com/quadproduction/OpenPype.git && \
     cd OpenPype && \
-    git fetch \
+    git fetch
 
 WORKDIR /opt/OpenPype
 
