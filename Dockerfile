@@ -1,7 +1,7 @@
 FROM debian:bullseye AS builder
 ARG OPENPYPE_PYTHON_VERSION=3.9.16
 ARG DEBIAN_FRONTEND=noninteractive
-ARG OPENPYPE_QUAD_SYNCHRO_VERSION
+ARG OPENPYPE_QUAD_SYNCHRO_VERSION="3.15.12-quad.3.10"
 
 LABEL org.opencontainers.image.name="openpype-module-docker"
 LABEL org.opencontainers.image.documentation="https://github.com/quadproduction/openpype-module-docker"
@@ -35,6 +35,10 @@ RUN cd /opt/ && \
 
 WORKDIR /opt/OpenPype
 
+# The OPENPYPE_QUAD_SYNCHRO_VERSION should be re-apply/updated when the docker container is (re)started
+# First Add a container environnement variable named OPENPYPE_QUAD_SYNCHRO_VERSION set to the version wanted, then
+# set the container CMD to:
+# '/bin/bash' '-c' 'git stash && git checkout ${OPENPYPE_QUAD_SYNCHRO_VERSION} && YOUR_ORIGINAL_CMD_HERE'
 RUN git checkout ${OPENPYPE_QUAD_SYNCHRO_VERSION}
 
 RUN pyenv local ${OPENPYPE_PYTHON_VERSION}
@@ -47,5 +51,5 @@ RUN ./tools/create_env.sh && ./tools/fetch_thirdparty_libs.sh
 RUN sed -i "s/gazu = \"^0.8.34\"/gazu = \"^0.9.0\"/" pyproject.toml && \
     .poetry/bin/poetry update
 
-ENTRYPOINT "git stash && git checkout \${OPENPYPE_QUAD_SYNCHRO_VERSION} && .poetry/bin/poetry run python start.py module"
-CMD ["--help"]
+ENTRYPOINT [""]
+CMD [""]
