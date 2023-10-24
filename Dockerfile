@@ -1,6 +1,7 @@
 FROM debian:bullseye AS builder
 ARG OPENPYPE_PYTHON_VERSION=3.9.16
 ARG DEBIAN_FRONTEND=noninteractive
+ARG OPENPYPE_QUAD_SYNCHRO_VERSION
 
 LABEL org.opencontainers.image.name="openpype-module-docker"
 LABEL org.opencontainers.image.documentation="https://github.com/quadproduction/openpype-module-docker"
