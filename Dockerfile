@@ -47,5 +47,5 @@ RUN ./tools/create_env.sh && ./tools/fetch_thirdparty_libs.sh
 RUN sed -i "s/gazu = \"^0.8.34\"/gazu = \"^0.9.0\"/" pyproject.toml && \
     .poetry/bin/poetry update
 
-ENTRYPOINT ["/bin/sh", "-c", "\"", "git", "stash", "&&", "git", "checkout", "\${OPENPYPE_QUAD_SYNCHRO_VERSION}", "&&", ".poetry/bin/poetry", "run", "python", "start.py", "module", "\""]
+ENTRYPOINT "git stash && git checkout \${OPENPYPE_QUAD_SYNCHRO_VERSION} && .poetry/bin/poetry run python start.py module"
 CMD ["--help"]
