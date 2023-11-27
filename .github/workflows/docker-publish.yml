@@ -69,18 +69,11 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Sign image with a key
-        run: |
-          cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}@${DIGEST}"
+      - name: Sign images with a key
+        run: echo "${TAGS}" | xargs -I {} cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${}@${DIGEST}"
         env:
           TAGS: ${{ steps.docker_meta.outputs.tags }}
           COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
           COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
-          DIGEST: ${{ steps.build-and-push.outputs.digest }}
-
-      - name: Sign the images with GitHub OIDC Token
-        run: echo "${TAGS}" | xargs -I {} cosign sign {}@${DIGEST}
-        env:
-          DIGEST: ${{ steps.build-and-push.outputs.digest }}
-          TAGS: ${{ steps.docker_meta.outputs.tags }}
           COSIGN_EXPERIMENTAL: "true"
+          DIGEST: ${{ steps.build-and-push.outputs.digest }}
