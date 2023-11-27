@@ -14,7 +14,7 @@ RUN apt-get update -y \
     && apt-get install -y --no-install-recommends \
     ca-certificates bash git cmake make curl wget build-essential libssl-dev \
     zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev llvm libncursesw5-dev \
-    xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev patchelf
+    xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev patchelf libgl1
 
 # install pyenv
 RUN curl https://pyenv.run | bash && \
