@@ -70,7 +70,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Sign images with a key
-        run: echo -e "${TAGS}" | xargs -I {} sh -c 'cosign sign --yes "${}@${DIGEST}"'
+        run: echo -e "${TAGS}" | xargs -I {} sh -c 'cosign sign --yes "{}@${DIGEST}"'
         env:
           TAGS: ${{ steps.docker_meta.outputs.tags }}
           COSIGN_EXPERIMENTAL: "true"
