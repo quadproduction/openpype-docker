@@ -38,8 +38,8 @@ WORKDIR /opt/OpenPype
 # The OPENPYPE_QUAD_SYNCHRO_VERSION should be re-apply/updated when the docker container is (re)started
 # First Add a container environnement variable named OPENPYPE_QUAD_SYNCHRO_VERSION set to the version wanted, then
 # set the container CMD to:
-# '/bin/bash' '-c' 'git stash && git checkout ${OPENPYPE_QUAD_SYNCHRO_VERSION} && YOUR_ORIGINAL_CMD_HERE'
-RUN git checkout ${OPENPYPE_QUAD_SYNCHRO_VERSION}
+# '/bin/bash' '-c' 'git stash && git checkout tags/${OPENPYPE_QUAD_SYNCHRO_VERSION} && YOUR_ORIGINAL_CMD_HERE'
+RUN git checkout tags/${OPENPYPE_QUAD_SYNCHRO_VERSION}
 
 RUN pyenv local ${OPENPYPE_PYTHON_VERSION}
 
