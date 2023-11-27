@@ -39,6 +39,7 @@ WORKDIR /opt/OpenPype
 # First Add a container environnement variable named OPENPYPE_QUAD_SYNCHRO_VERSION set to the version wanted, then
 # set the container CMD to:
 # '/bin/bash' '-c' 'git stash && git checkout tags/${OPENPYPE_QUAD_SYNCHRO_VERSION} && YOUR_ORIGINAL_CMD_HERE'
+RUN git fetch --all --tags
 RUN git checkout tags/${OPENPYPE_QUAD_SYNCHRO_VERSION}
 
 RUN pyenv local ${OPENPYPE_PYTHON_VERSION}
