@@ -70,10 +70,8 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Sign images with a key
-        run: echo -e "${TAGS}" | xargs -I {} sh -c 'cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${}@${DIGEST}"'
+        run: echo -e "${TAGS}" | xargs -I {} sh -c 'cosign sign --yes "${}@${DIGEST}"'
         env:
           TAGS: ${{ steps.docker_meta.outputs.tags }}
-          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
-          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
           COSIGN_EXPERIMENTAL: "true"
           DIGEST: ${{ steps.build-and-push.outputs.digest }}
