@@ -79,8 +79,8 @@ jobs:
           DIGEST: ${{ steps.build-and-push.outputs.digest }}
 
       - name: Sign the images with GitHub OIDC Token
+        run: echo "${TAGS}" | xargs -I {} cosign sign {}@${DIGEST}
         env:
           DIGEST: ${{ steps.build-and-push.outputs.digest }}
           TAGS: ${{ steps.docker_meta.outputs.tags }}
           COSIGN_EXPERIMENTAL: "true"
-        run: echo "${{TAGS}}" | xargs -I {} cosign sign {}@${{DIGEST}}
