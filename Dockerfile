@@ -1,7 +1,7 @@
 FROM debian:bullseye AS builder
 ARG OPENPYPE_PYTHON_VERSION=3.9.16
 ARG DEBIAN_FRONTEND=noninteractive
-ARG OPENPYPE_QUAD_SYNCHRO_VERSION="3.16.9-quad-1.0.0"
+ARG OPENPYPE_QUAD_SYNCHRO_VERSION="3.16.9-quad-1.5.0"
 
 LABEL org.opencontainers.image.name="openpype-module-docker"
 LABEL org.opencontainers.image.documentation="https://github.com/quadproduction/openpype-module-docker"
@@ -12,9 +12,9 @@ ENV OPENPYPE_MONGO="mongodb://localhost:27017"
 # update base
 RUN apt-get update -y \
     && apt-get install -y --no-install-recommends \
-    ca-certificates bash git cmake make curl wget build-essential libssl-dev \
-    zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev llvm libncursesw5-dev \
-    xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev patchelf libgl1
+    ca-certificates bash git cmake make curl wget build-essential libssl-dev zlib1g-dev libbz2-dev  \
+    libreadline-dev libsqlite3-dev llvm libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev  \
+    libffi-dev liblzma-dev patchelf libgl1 libxcb-icccm4
 
 # install pyenv
 RUN curl https://pyenv.run | bash && \
@@ -45,11 +45,6 @@ RUN pyenv local ${OPENPYPE_PYTHON_VERSION}
 
 # create virtualenv
 RUN ./tools/create_env.sh && ./tools/fetch_thirdparty_libs.sh
-
-# Fix version compatibility with kitsu ^0.16.0
-# TODO: Remove this when gazu is updated to 0.9.0 in poetry.lock
-RUN sed -i "s/gazu = \"^0.8.34\"/gazu = \"^0.9.0\"/" pyproject.toml && \
-    .poetry/bin/poetry update
 
 ENTRYPOINT [""]
 CMD [""]
