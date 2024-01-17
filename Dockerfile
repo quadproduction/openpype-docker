@@ -1,7 +1,6 @@
 FROM debian:latest AS builder
 USER root
 ARG OPENPYPE_PYTHON_VERSION=3.9.16
-ARG DEBIAN_FRONTEND=noninteractive
 ARG OPENPYPE_QUAD_SYNCHRO_VERSION="3.16.9-quad-1.5.0"
 
 LABEL org.opencontainers.image.name="openpype-module-docker"
