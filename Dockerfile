@@ -1,4 +1,5 @@
 FROM debian:bullseye AS builder
+USER root
 ARG OPENPYPE_PYTHON_VERSION=3.9.16
 ARG DEBIAN_FRONTEND=noninteractive
 ARG OPENPYPE_QUAD_SYNCHRO_VERSION="3.16.9-quad-1.5.0"
@@ -8,15 +9,14 @@ LABEL org.opencontainers.image.documentation="https://github.com/quadproduction/
 
 ENV OPENPYPE_MONGO="mongodb://localhost:27017"
 
-
-# update base
+# Update base
 RUN apt-get update -y \
     && apt-get install -y --no-install-recommends \
     ca-certificates bash git cmake make curl wget build-essential libssl-dev zlib1g-dev libbz2-dev  \
     libreadline-dev libsqlite3-dev llvm libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev  \
-    libffi-dev liblzma-dev patchelf libgl1 libxcb-icccm4
+    libffi-dev liblzma-dev patchelf libgl1 libxcb-icccm4 libxcb-image0
 
-# install pyenv
+# Install pyenv
 RUN curl https://pyenv.run | bash && \
     echo 'export PATH="$HOME/.pyenv/bin:$PATH"'>> $HOME/.bashrc && \
     echo 'eval "$(pyenv init -)"' >> $HOME/.bashrc && \
@@ -24,10 +24,10 @@ RUN curl https://pyenv.run | bash && \
     echo 'eval "$(pyenv init --path)"' >> $HOME/.bashrc
 SHELL ["/bin/bash", "--login", "-c"]
 
-# install python
+# Install python
 RUN pyenv install ${OPENPYPE_PYTHON_VERSION}
 
-# clone openpype
+# Clone OpenPype
 RUN cd /opt/ && \
     git clone --recurse-submodules https://github.com/quadproduction/OpenPype.git && \
     cd OpenPype && \
@@ -43,8 +43,11 @@ RUN git checkout tags/${OPENPYPE_QUAD_SYNCHRO_VERSION}
 
 RUN pyenv local ${OPENPYPE_PYTHON_VERSION}
 
-# create virtualenv
+# Create virtualenv
 RUN ./tools/create_env.sh && ./tools/fetch_thirdparty_libs.sh
+
+# Fixing Qt issues
+RUN ln -sf /opt/OpenPype/vendor/python/PySide2/Qt/plugins/platforms/ /usr/bin/
 
 ENTRYPOINT [""]
 CMD [""]
